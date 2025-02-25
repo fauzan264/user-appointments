@@ -3,7 +3,9 @@ package config
 import (
 	"log"
 	"os"
+	"strconv"
 
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -36,6 +38,18 @@ func InitLogger() {
 		log.Fatal("Error opening log file: ", err)
 	} else {
 		log.SetOutput(logFile)
+	}
+}
+
+func SetupGinMode(debug string) {
+	mode, err := strconv.ParseBool(debug)
+	if err != nil {
+		log.Fatal("Error: ", err.Error())
+	}
+
+	gin.SetMode(gin.ReleaseMode)
+	if mode {
+		gin.SetMode(gin.DebugMode)
 	}
 }
 

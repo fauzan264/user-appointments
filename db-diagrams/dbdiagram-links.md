@@ -1,0 +1,1 @@
+https://dbdiagram.io/d/user-appointments-67bdd327263d6cf9a068782c

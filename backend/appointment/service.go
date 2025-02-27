@@ -1,6 +1,9 @@
 package appointment
 
 import (
+	"errors"
+
+	"github.com/fauzan264/user-appointments/helper"
 	"github.com/fauzan264/user-appointments/user"
 	"github.com/google/uuid"
 )
@@ -21,7 +24,7 @@ func NewService(repository Repository, userRepository user.Repository) *service 
 
 func(s *service) CreateAppointment(input CreateAppointmentInput) (Appointment, error) {
 	appointmentID := uuid.New()
-	
+
 	appointment := Appointment{
 		ID: appointmentID,
 		Title: input.Title,
@@ -42,6 +45,11 @@ func(s *service) CreateAppointment(input CreateAppointmentInput) (Appointment, e
 		return Appointment{}, err
 	}
 	appointmentUser.User = getUser
+
+	// check Appointment time is working hours
+	if !helper.IsWithinWorkingHours(input.Start, getUser.PreferredTimeZone) || !helper.IsWithinWorkingHours(input.End, getUser.PreferredTimeZone) {
+		return Appointment{}, errors.New("Appointment time is outside working hours (08:00 - 17:00).")
+	}
 
 	appointmentUsers = append(appointmentUsers, appointmentUser)
 	appointment.AppointmentUsers = appointmentUsers

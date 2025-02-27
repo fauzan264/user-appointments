@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"log"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -37,4 +38,17 @@ func ValidateStartBeforeEnd(fl validator.FieldLevel) bool {
 	end := fl.Field().Interface().(time.Time)
 
 	return !start.After(end)
+}
+
+func IsWithinWorkingHours(utcTime time.Time, tz string) bool {
+	loc, err := time.LoadLocation(tz)
+	if err != nil {
+		log.Println("Error loading timezone:", err)
+		return false
+	}
+
+	localTime := utcTime.In(loc)
+	hour := localTime.Hour()
+
+	return hour >= 8 && hour < 17
 }

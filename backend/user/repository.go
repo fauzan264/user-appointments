@@ -23,8 +23,8 @@ func NewRepository(db *gorm.DB) *repository {
 func (r *repository) RegisterUser(user User) (User, error) {
 	if err := r.db.Create(&user).Error; err != nil {
 		mysqlErr, ok := err.(*mysql.MySQLError)
-		if ok && mysqlErr.Number == 1452 {
-			errMessage := errors.New("RoleID is invalid. Please ensure the role ID exists.")
+		if ok && mysqlErr.Number == 1062 {
+			errMessage := errors.New("Username is already taken, please choose another one.")
 			return user, errMessage
 		}
 

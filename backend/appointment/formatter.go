@@ -7,12 +7,12 @@ import (
 )
 
 type AppointmentFormatter struct {
-	ID 							uuid.UUID 	`json:"id"`
-	Title						string		`json:"title"`
-	CreatorID					uuid.UUID	`json:"creator_id"`
-	Start						time.Time	`json:"start"`
-	End							time.Time	`json:"end"`
-	AppointmentUsersFormatter	[]AppointmentUserFormatter
+	ID 							uuid.UUID 					`json:"id"`
+	Title						string						`json:"title"`
+	CreatorID					uuid.UUID					`json:"creator_id"`
+	Start						time.Time					`json:"start"`
+	End							time.Time					`json:"end"`
+	AppointmentUsersFormatter	[]AppointmentUserFormatter	`json:"appointment_users"`
 }
 
 type AppointmentUserFormatter struct {

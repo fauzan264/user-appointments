@@ -20,6 +20,7 @@ func FormatAuth(auth user.User, token string) AuthFormatter {
 		Name: auth.Name,
 		Username: auth.Username,
 		PreferredTimeZone: auth.PreferredTimeZone,
+		Token: token,
 	}
 
 	return formatter

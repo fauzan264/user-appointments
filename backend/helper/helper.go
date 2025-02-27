@@ -1,6 +1,10 @@
 package helper
 
-import "github.com/go-playground/validator/v10"
+import (
+	"time"
+
+	"github.com/go-playground/validator/v10"
+)
 
 type Response struct {
 	Status		bool 		`json:"status"`
@@ -26,4 +30,11 @@ func FormatValidationError(err error) []string {
 	}
 
 	return errors
+}
+
+func ValidateStartBeforeEnd(fl validator.FieldLevel) bool {
+	start := fl.Parent().FieldByName("Start").Interface().(time.Time)
+	end := fl.Field().Interface().(time.Time)
+
+	return !start.After(end)
 }

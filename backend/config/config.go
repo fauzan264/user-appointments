@@ -5,7 +5,10 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/fauzan264/user-appointments/helper"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
 )
 
@@ -58,5 +61,9 @@ func init() {
 
 	if err := godotenv.Load(); err != nil {
 		log.Println("Error loading .env file", err)
+	}
+
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("gtfield", helper.ValidateStartBeforeEnd)
 	}
 }

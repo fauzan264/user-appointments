@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/fauzan264/user-appointments/appointment"
 	"github.com/fauzan264/user-appointments/auth"
 	"github.com/fauzan264/user-appointments/config"
 	"github.com/fauzan264/user-appointments/handler"
@@ -24,17 +25,27 @@ func main() {
 
 	// Repositories
 	userRepository := user.NewRepository(db)
+	appointmentRepository := appointment.NewRepository(db)
 
 	// Services
 	authService := auth.NewService(userRepository)
+	userService := user.NewService(userRepository)
+	appointmentService := appointment.NewService(appointmentRepository, userRepository)
 	jwtService := middleware.NewJWTService()
 
 	// handlers
 	authHandler := handler.NewAuthHandler(authService, jwtService)
+	appointmentHandler := handler.NewAppointmentHandler(appointmentService, jwtService)
+
 
 	api := router.Group("/api/v1")
+	// auth
 	api.POST("/register", authHandler.RegisterUser)
 	api.POST("/login", authHandler.Login)
+
+	// appointment
+	api.POST("/appointment", middleware.AuthMiddleware(jwtService, userService), appointmentHandler.CreateAppointment)
+	
 
 	err := router.Run(fmt.Sprintf("%s:%s", cfg.AppHost, cfg.AppPort))
 	if err != nil {

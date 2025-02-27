@@ -7,6 +7,7 @@ import (
 
 type Service interface {
 	CreateAppointment(input CreateAppointmentInput) (Appointment, error)
+	CreateAppointmentUser(input CreateAppointmentUserInput) (AppointmentUser, error)
 }
 
 type service struct {
@@ -51,4 +52,25 @@ func(s *service) CreateAppointment(input CreateAppointmentInput) (Appointment, e
 	}
 
 	return createAppointment, nil
+}
+
+func(s *service) CreateAppointmentUser(input CreateAppointmentUserInput) (AppointmentUser, error) {
+	appointmentUser := AppointmentUser{
+		ID: uuid.New(),
+		AppointmentID: input.AppointmentID,
+		UserID: input.UserID,
+	}
+
+	getUser, err := s.userRepository.GetUserByid(input.UserID)
+	if err != nil {
+		return AppointmentUser{}, err
+	}
+	appointmentUser.User = getUser
+	
+	createAppointmentUser, err := s.repository.CreateAppointmentUser(appointmentUser)
+	if err != nil {
+		return createAppointmentUser, err
+	}
+
+	return createAppointmentUser, nil
 }

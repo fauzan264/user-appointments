@@ -64,3 +64,69 @@ net/http.(*conn).serve(0x14000140b40, {0x102fdca58, 0x14000393410})
 	/usr/local/go/src/net/http/server.go:2102 +0x52c
 created by net/http.(*Server).Serve in goroutine 1
 	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+2025/02/27 23:22:06 http: panic serving 127.0.0.1:57880: interface conversion: error is uuid.invalidLengthError, not validator.ValidationErrors
+goroutine 10 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1947 +0xb0
+panic({0x102beb560?, 0x140000a1500?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+github.com/fauzan264/user-appointments/helper.FormatValidationError(...)
+	/Users/fauzan264/projects/test/user-appointments/backend/helper/helper.go:28
+github.com/fauzan264/user-appointments/handler.(*appointmentHandler).CreateAppointmentUser(0x1400036a4a0, 0x140000c4000)
+	/Users/fauzan264/projects/test/user-appointments/backend/handler/appointment_handler.go:93 +0x830
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x14000115860, 0x140000c4000)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633 +0x6c4
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x14000115860, {0x102c8d0d8, 0x140000c01c0}, 0x140000b4780)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589 +0x170
+net/http.serverHandler.ServeHTTP({0x102c8ae70?}, {0x102c8d0d8?, 0x140000c01c0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x1400036e6c0, {0x102c8de38, 0x14000372cf0})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+2025/02/27 23:22:06 http: panic serving 127.0.0.1:57991: interface conversion: error is uuid.invalidLengthError, not validator.ValidationErrors
+goroutine 26 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1947 +0xb0
+panic({0x102beb560?, 0x140000a1a10?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+github.com/fauzan264/user-appointments/helper.FormatValidationError(...)
+	/Users/fauzan264/projects/test/user-appointments/backend/helper/helper.go:28
+github.com/fauzan264/user-appointments/handler.(*appointmentHandler).CreateAppointmentUser(0x1400036a4a0, 0x140000c4100)
+	/Users/fauzan264/projects/test/user-appointments/backend/handler/appointment_handler.go:93 +0x830
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x14000115860, 0x140000c4100)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633 +0x6c4
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x14000115860, {0x102c8d0d8, 0x140000c0380}, 0x140000b4c80)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589 +0x170
+net/http.serverHandler.ServeHTTP({0x102c8ae70?}, {0x102c8d0d8?, 0x140000c0380?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x140000b83f0, {0x102c8de38, 0x14000372cf0})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+2025/02/27 23:22:23 http: panic serving 127.0.0.1:58062: interface conversion: error is uuid.invalidLengthError, not validator.ValidationErrors
+goroutine 28 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1947 +0xb0
+panic({0x102beb560?, 0x140000a1f20?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+github.com/fauzan264/user-appointments/helper.FormatValidationError(...)
+	/Users/fauzan264/projects/test/user-appointments/backend/helper/helper.go:28
+github.com/fauzan264/user-appointments/handler.(*appointmentHandler).CreateAppointmentUser(0x1400036a4a0, 0x140000c4200)
+	/Users/fauzan264/projects/test/user-appointments/backend/handler/appointment_handler.go:93 +0x830
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x14000115860, 0x140000c4200)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633 +0x6c4
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x14000115860, {0x102c8d0d8, 0x140000c0460}, 0x140000b4f00)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589 +0x170
+net/http.serverHandler.ServeHTTP({0x102c8ae70?}, {0x102c8d0d8?, 0x140000c0460?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x140000b8630, {0x102c8de38, 0x14000372cf0})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8

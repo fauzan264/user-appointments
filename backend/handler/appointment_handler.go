@@ -62,6 +62,7 @@ func (h *appointmentHandler) CreateAppointment(c *gin.Context) {
 			errorMessage,
 		)
 		c.JSON(http.StatusBadRequest, response)
+		return
 	}
 
 
@@ -71,5 +72,60 @@ func (h *appointmentHandler) CreateAppointment(c *gin.Context) {
 		appointment.FormatAppointment(newAppointment),
 	)
 	c.JSON(http.StatusOK, response)
+	return
 }
 
+func (h *appointmentHandler) CreateAppointmentUser(c *gin.Context) {
+	var input appointment.CreateAppointmentUserInput
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		if timeErr, ok := err.(*time.ParseError); ok {
+			errorMessage := gin.H{"error": timeErr}
+			
+			response := helper.APIResponse(
+				false,
+				"Invalid time format",
+				errorMessage,
+			)
+			c.JSON(http.StatusUnprocessableEntity, response)
+			return
+		}
+
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse(
+			false,
+			"Failed create appointment user",
+			errorMessage,
+		)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	currentUser := c.MustGet("currentUser").(user.User)
+	input.User = currentUser
+
+	newAppointment, err := h.appointmentService.CreateAppointmentUser(input)
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse(
+			false,
+			"Failed create appointment user",
+			errorMessage,
+		)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+
+	response := helper.APIResponse(
+		true,
+		"Success create appointment user",
+		appointment.FormatAppointmentUser(newAppointment),
+	)
+	c.JSON(http.StatusOK, response)
+	return
+}

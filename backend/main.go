@@ -45,7 +45,7 @@ func main() {
 
 	// appointment
 	api.POST("/appointment", middleware.AuthMiddleware(jwtService, userService), appointmentHandler.CreateAppointment)
-	
+	api.POST("/appointment_user", middleware.AuthMiddleware(jwtService, userService), appointmentHandler.CreateAppointmentUser)
 
 	err := router.Run(fmt.Sprintf("%s:%s", cfg.AppHost, cfg.AppPort))
 	if err != nil {

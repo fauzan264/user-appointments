@@ -9,6 +9,7 @@ import (
 
 type Service interface {
 	RegisterUser(input RegisterUserInput) (user.User, error)
+	Login(input LoginInput) (user.User, error)
 }
 
 type service struct {
@@ -40,4 +41,21 @@ func (s *service) RegisterUser(input RegisterUserInput) (user.User, error) {
 	}
 
 	return createUser, nil
+}
+
+func (s *service) Login(input LoginInput) (user.User, error) {
+	username := input.Username
+	password := input.Password
+
+	user, err := s.repository.GetUserByUsername(username)
+	if err != nil {
+		return user, err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
 }

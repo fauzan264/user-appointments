@@ -34,6 +34,7 @@ func main() {
 
 	api := router.Group("/api/v1")
 	api.POST("/register", authHandler.RegisterUser)
+	api.POST("/login", authHandler.Login)
 
 	err := router.Run(fmt.Sprintf("%s:%s", cfg.AppHost, cfg.AppPort))
 	if err != nil {

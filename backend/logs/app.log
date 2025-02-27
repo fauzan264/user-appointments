@@ -12,3 +12,25 @@
 2025/02/25 23:15:00 Error: invalid field found for struct github.com/fauzan264/user-appointments/appointment.AppointmentUser's field User: define a valid foreign key for relations or implement the Valuer/Scanner interface
 2025/02/25 23:15:42 Error: invalid field found for struct github.com/fauzan264/user-appointments/appointment.AppointmentUser's field User: define a valid foreign key for relations or implement the Valuer/Scanner interface
 2025/02/25 23:37:54 Error: Error 1045 (28000): Access denied for user 'root'@'172.18.0.1' (using password: YES)
+2025/02/27 20:24:16 http: panic serving 127.0.0.1:59068: interface conversion: error is *errors.errorString, not validator.ValidationErrors
+goroutine 22 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1947 +0xb0
+panic({0x10325a720?, 0x140003935f0?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+github.com/fauzan264/user-appointments/helper.FormatValidationError(...)
+	/Users/fauzan264/projects/test/user-appointments/backend/helper/helper.go:24
+github.com/fauzan264/user-appointments/handler.(*authHandler).Login(0x14000388760, 0x140003aa100)
+	/Users/fauzan264/projects/test/user-appointments/backend/handler/auth_handler.go:68 +0x710
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/context.go:185
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x140000d61a0, 0x140003aa100)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:633 +0x6c4
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x140000d61a0, {0x1032fb430, 0x1400039a0e0}, 0x140003b2000)
+	/Users/fauzan264/go/pkg/mod/github.com/gin-gonic/gin@v1.10.0/gin.go:589 +0x170
+net/http.serverHandler.ServeHTTP({0x14000393500?}, {0x1032fb430?, 0x1400039a0e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x14000381c20, {0x1032fc198, 0x14000393410})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8

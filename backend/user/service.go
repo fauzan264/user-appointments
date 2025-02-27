@@ -15,7 +15,7 @@ func NewService(repository Repository) *service {
 }
 
 func (s *service) GetUserByID(id uuid.UUID) (User, error) {
-	user, err := s.GetUserByID(id)
+	user, err := s.repository.GetUserByid(id)
 	if err != nil {
 		return user, err
 	}

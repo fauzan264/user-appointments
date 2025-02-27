@@ -10,6 +10,8 @@ import (
 
 type Repository interface {
 	RegisterUser(user User) (User, error)
+	GetUserByid(id uuid.UUID) (User, error)
+	GetUserByUsername(username string) (User, error)
 }
 
 type repository struct {
@@ -39,6 +41,21 @@ func (r *repository) GetUserByid(id uuid.UUID) (User, error) {
 	var user User
 	result := r.db.Where("id = ?", id).Find(&user)
 
+	if result.RowsAffected == 0 {
+		return user, errors.New("User not found")
+	}
+
+	if result.Error != nil {
+		return user, result.Error
+	}
+
+	return user, nil
+}
+
+func (r *repository) GetUserByUsername(username string) (User, error) {
+	var user User
+	result := r.db.Where("username = ?", username).Find(&user)
+	
 	if result.RowsAffected == 0 {
 		return user, errors.New("User not found")
 	}

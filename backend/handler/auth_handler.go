@@ -59,3 +59,56 @@ func (h *authHandler) RegisterUser(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 	return
 }
+
+func (h *authHandler) Login(c *gin.Context) {
+	var input auth.LoginInput
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse(
+			false,
+			"The data you sent is invalid",
+			errorMessage,
+		)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	loginUser, err := h.authService.Login(input)
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse(
+			false,
+			"Login failed",
+			errorMessage,
+		)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	token, err := h.jwtService.GenerateToken(loginUser.ID)
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse(
+			false,
+			"Login failed",
+			errorMessage,
+		)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	formatter := auth.FormatAuth(loginUser, token)
+	response := helper.APIResponse(
+		true,
+		"Login successfully!",
+		formatter,
+	)
+	c.JSON(http.StatusOK, response)
+	return
+}

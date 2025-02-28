@@ -6,6 +6,7 @@ import (
 	"github.com/fauzan264/user-appointments/auth"
 	"github.com/fauzan264/user-appointments/helper"
 	"github.com/fauzan264/user-appointments/middleware"
+	"github.com/fauzan264/user-appointments/user"
 	"github.com/gin-gonic/gin"
 )
 
@@ -111,4 +112,13 @@ func (h *authHandler) Login(c *gin.Context) {
 	)
 	c.JSON(http.StatusOK, response)
 	return
+}
+
+func (h *authHandler) GetSession(c *gin.Context) {
+	currentUser := c.MustGet("currentUser").(user.User)
+	formatter := auth.FormatAuth(currentUser, "")
+
+	response := helper.APIResponse(true, "Successfully fetch user data", formatter)
+	c.JSON(http.StatusOK, response)
+
 }

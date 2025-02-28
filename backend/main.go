@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/fauzan264/user-appointments/appointment"
 	"github.com/fauzan264/user-appointments/auth"
@@ -21,7 +22,14 @@ func main() {
 	config.SetupGinMode(cfg.Debug)
 
 	router := gin.New()
-	router.Use(cors.Default())
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"}, // Ganti dengan domain frontend
+        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+        AllowHeaders:     []string{"Authorization", "Content-Type"},
+        ExposeHeaders:    []string{"Content-Length", "Authorization"},
+        AllowCredentials: true,
+        MaxAge:           12 * time.Hour, // Cache preflight selama 12 jam
+	}))
 
 	// Repositories
 	userRepository := user.NewRepository(db)
@@ -40,8 +48,9 @@ func main() {
 
 	api := router.Group("/api/v1")
 	// auth
-	api.POST("/register", authHandler.RegisterUser)
-	api.POST("/login", authHandler.Login)
+	api.POST("/auth/register", authHandler.RegisterUser)
+	api.POST("/auth/login", authHandler.Login)
+	api.GET("/auth/session", middleware.AuthMiddleware(jwtService, userService), authHandler.GetSession)
 
 	// appointment
 	api.POST("/appointment", middleware.AuthMiddleware(jwtService, userService), appointmentHandler.CreateAppointment)

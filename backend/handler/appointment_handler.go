@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 	"time"
 
@@ -134,7 +133,6 @@ func (h *appointmentHandler) CreateAppointmentUser(c *gin.Context) {
 func (h *appointmentHandler) GetUserAppointments(c *gin.Context) {
 	currentUser := c.MustGet("currentUser").(user.User)
 	userID := currentUser.ID
-	log.Println(userID)
 
 	getApppointments, err := h.appointmentService.GetAppointmentByCreatorID(userID)
 	if err != nil {
@@ -144,6 +142,29 @@ func (h *appointmentHandler) GetUserAppointments(c *gin.Context) {
 	}
 
 	response := helper.APIResponse(true, "Success to get appointments", appointment.FormatAppointments(getApppointments))
+	c.JSON(http.StatusOK, response)
+	return
+}
+
+func (h *appointmentHandler) GetAppointmentByID(c *gin.Context) {
+	var input appointment.GetAppointmentByIDInput
+
+	err := c.ShouldBindUri(&input)
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+		response := helper.APIResponse(false, "Failed to get appointments", errorMessage)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	getApppointments, err := h.appointmentService.GetAppointmentByID(input)
+	if err != nil {
+		response := helper.APIResponse(false, "Failed to get appointments", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := helper.APIResponse(true, "Success to get appointments", appointment.FormatAppointment(getApppointments))
 	c.JSON(http.StatusOK, response)
 	return
 }

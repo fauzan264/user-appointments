@@ -9,6 +9,7 @@ type Repository interface {
 	CreateAppointment(appointment Appointment) (Appointment, error)
 	CreateAppointmentUser(appointmentUser AppointmentUser) (AppointmentUser, error)
 	GetAppointmentByCreatorID(userID uuid.UUID) ([]Appointment, error)
+	GetAppointmentByID(id uuid.UUID) (Appointment, error)
 }
 
 type repository struct {
@@ -38,6 +39,15 @@ func (r *repository) CreateAppointmentUser(appointmentUser AppointmentUser) (App
 func (r *repository) GetAppointmentByCreatorID(userID uuid.UUID) ([]Appointment, error) {
 	appointments := []Appointment{}
 	if err := r.db.Where("creator_id = ?", userID).Find(&appointments).Error; err != nil {
+		return appointments, err
+	}
+
+	return appointments, nil
+}
+
+func (r *repository) GetAppointmentByID(id uuid.UUID) (Appointment, error) {
+	appointments := Appointment{}
+	if err := r.db.Where("id = ?", id).Find(&appointments).Error; err != nil {
 		return appointments, err
 	}
 

@@ -11,8 +11,17 @@
   },
   "dependencies": {
     "nuxt": "^3.15.4",
-    "vue": "latest",
-    "vue-router": "latest"
+    "vue": "^3.2.0",
+    "vue-router": "^4.0.0",
+    "vue-tabler-icons": "2.9.0",
+    "vue3-apexcharts": "1.4.1",
+    "vue3-perfect-scrollbar": "1.6.0",
+    "vuetify": "3.3.19",
+    "@mdi/font": "^6.5.95",
+    "vite": "^4.5.9",
+    "@nuxt/vite-builder": "^3.7.4",
+    "apexcharts": "3.36.3",
+    "sass": "^1.49.9"
   },
   "devDependencies": {
     "@sidebase/nuxt-auth": "^0.7.2"

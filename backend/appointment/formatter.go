@@ -12,7 +12,7 @@ type AppointmentFormatter struct {
 	CreatorID					uuid.UUID					`json:"creator_id"`
 	Start						time.Time					`json:"start"`
 	End							time.Time					`json:"end"`
-	AppointmentUsersFormatter	[]AppointmentUserFormatter	`json:"appointment_users"`
+	AppointmentUsersFormatter	[]AppointmentUserFormatter	`json:"appointment_users,omitempty"`
 }
 
 type AppointmentUserFormatter struct {
@@ -55,4 +55,15 @@ func FormatAppointment(appointment Appointment) AppointmentFormatter {
 	formatter.AppointmentUsersFormatter = appointmentUsers
 
 	return formatter
+}
+
+func FormatAppointments(appointments []Appointment) []AppointmentFormatter {
+	appointmentsFormatter := []AppointmentFormatter{}
+
+	for _, appointment := range appointments {
+		appointmentFormatter := FormatAppointment(appointment)
+		appointmentsFormatter = append(appointmentsFormatter, appointmentFormatter)
+	}
+
+	return appointmentsFormatter
 }

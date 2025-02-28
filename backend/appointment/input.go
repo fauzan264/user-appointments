@@ -20,3 +20,7 @@ type CreateAppointmentUserInput struct {
 	UserID			uuid.UUID	`json:"user_id" binding:"required"`
 	User			user.User
 }
+
+type GetAppointments struct {
+	UserID			uuid.UUID `json:"user_id" binding:"required"`
+}

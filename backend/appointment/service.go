@@ -2,6 +2,7 @@ package appointment
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/fauzan264/user-appointments/helper"
 	"github.com/fauzan264/user-appointments/user"
@@ -11,6 +12,7 @@ import (
 type Service interface {
 	CreateAppointment(input CreateAppointmentInput) (Appointment, error)
 	CreateAppointmentUser(input CreateAppointmentUserInput) (AppointmentUser, error)
+	GetAppointmentByCreatorID(userID uuid.UUID) ([]Appointment, error)
 }
 
 type service struct {
@@ -81,4 +83,15 @@ func(s *service) CreateAppointmentUser(input CreateAppointmentUserInput) (Appoin
 	}
 
 	return createAppointmentUser, nil
+}
+
+func (s *service) GetAppointmentByCreatorID(userID uuid.UUID) ([]Appointment, error) {
+	appointments, err := s.repository.GetAppointmentByCreatorID(userID)
+	fmt.Println(userID)
+	fmt.Println(appointments)
+	if err != nil {
+		return appointments, err
+	}
+
+	return appointments, nil
 }

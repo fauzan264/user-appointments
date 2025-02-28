@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -126,6 +127,23 @@ func (h *appointmentHandler) CreateAppointmentUser(c *gin.Context) {
 		"Success create appointment user",
 		appointment.FormatAppointmentUser(newAppointment),
 	)
+	c.JSON(http.StatusOK, response)
+	return
+}
+
+func (h *appointmentHandler) GetUserAppointments(c *gin.Context) {
+	currentUser := c.MustGet("currentUser").(user.User)
+	userID := currentUser.ID
+	log.Println(userID)
+
+	getApppointments, err := h.appointmentService.GetAppointmentByCreatorID(userID)
+	if err != nil {
+		response := helper.APIResponse(false, "Failed to get appointments", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := helper.APIResponse(true, "Success to get appointments", appointment.FormatAppointments(getApppointments))
 	c.JSON(http.StatusOK, response)
 	return
 }

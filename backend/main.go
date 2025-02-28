@@ -53,8 +53,9 @@ func main() {
 	api.GET("/auth/session", middleware.AuthMiddleware(jwtService, userService), authHandler.GetSession)
 
 	// appointment
-	api.POST("/appointment", middleware.AuthMiddleware(jwtService, userService), appointmentHandler.CreateAppointment)
+	api.POST("/appointments", middleware.AuthMiddleware(jwtService, userService), appointmentHandler.CreateAppointment)
 	api.POST("/appointment_user", middleware.AuthMiddleware(jwtService, userService), appointmentHandler.CreateAppointmentUser)
+	api.GET("/appointments", middleware.AuthMiddleware(jwtService, userService), appointmentHandler.GetUserAppointments)
 
 	err := router.Run(fmt.Sprintf("%s:%s", cfg.AppHost, cfg.AppPort))
 	if err != nil {

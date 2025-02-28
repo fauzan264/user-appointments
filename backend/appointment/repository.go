@@ -1,10 +1,14 @@
 package appointment
 
-import "gorm.io/gorm"
+import (
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+)
 
 type Repository interface {
 	CreateAppointment(appointment Appointment) (Appointment, error)
 	CreateAppointmentUser(appointmentUser AppointmentUser) (AppointmentUser, error)
+	GetAppointmentByCreatorID(userID uuid.UUID) ([]Appointment, error)
 }
 
 type repository struct {
@@ -29,4 +33,13 @@ func (r *repository) CreateAppointmentUser(appointmentUser AppointmentUser) (App
 	}
 
 	return appointmentUser, nil
+}
+
+func (r *repository) GetAppointmentByCreatorID(userID uuid.UUID) ([]Appointment, error) {
+	appointments := []Appointment{}
+	if err := r.db.Where("creator_id = ?", userID).Find(&appointments).Error; err != nil {
+		return appointments, err
+	}
+
+	return appointments, nil
 }
